@@ -147,6 +147,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\Desktop\glad.c" />
     <ClCompile Include="opengl-renderer.cpp" />
     <ClCompile Include="src\Window.cpp" />
   </ItemGroup>
