@@ -2,8 +2,11 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <stdexcept>
+#include "Camera.h"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+void mouse_callback(GLFWwindow* window, double xposIn, double yposIn);
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 
 Window::Window(int width, int height, std::string title) {
     // initialize and create a window context
@@ -30,6 +33,37 @@ Window::Window(int width, int height, std::string title) {
 
 GLFWwindow* Window::getContext() {
     return window;
+}
+
+void Window::draw() {
+    while (!glfwWindowShouldClose(window)) {
+        // calculate frame time
+        calculateDeltaTime();
+        // process inputs
+        // draw scene
+        glfwSwapBuffers(window);
+        glfwPollEvents();
+    }
+}
+
+void Window::calculateDeltaTime() {
+    float currentFrame = static_cast<float>(glfwGetTime());
+    deltaTime = currentFrame - lastFrame;
+    lastFrame = currentFrame;
+}
+
+void Window::processInput(GLFWwindow* window) {
+    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+        glfwSetWindowShouldClose(window, true);
+
+    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+        scene.camera.ProcessKeyboard(Direction::FORWARD, deltaTime);
+    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+        scene.camera.ProcessKeyboard(Direction::BACKWARD, deltaTime);
+    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+        scene.camera.ProcessKeyboard(Direction::LEFT, deltaTime);
+    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+        scene.camera.ProcessKeyboard(Direction::RIGHT, deltaTime);
 }
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
