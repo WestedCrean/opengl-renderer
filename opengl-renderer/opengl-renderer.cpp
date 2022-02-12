@@ -1,5 +1,5 @@
 #define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
+//#include "stb_image.h"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
@@ -10,6 +10,7 @@ int main() {
     Window window = Window(800, 600, "Wiktor's renderer");
 
     std::cout << "Window initialized successfully" << std::endl;
+
 }
 
 
