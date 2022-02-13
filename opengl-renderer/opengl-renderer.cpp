@@ -7,9 +7,12 @@
 #include <iostream>
 
 int main() {
+
     Window window = Window(800, 600, "Wiktor's renderer");
 
     std::cout << "Window initialized successfully" << std::endl;
+
+    window.draw();
 
 }
 

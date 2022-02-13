@@ -1,8 +1,10 @@
-#include "Window.h"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <stdexcept>
+
+#include "Window.h"
 #include "Camera.h"
+#include "Direction.h"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xposIn, double yposIn);
@@ -29,6 +31,11 @@ Window::Window(int width, int height, std::string title) {
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
         throw std::runtime_error("Failed to initialize GLAD");
     }
+    glEnable(GL_DEPTH_TEST);
+}
+
+Window::~Window() {
+    glfwTerminate();
 }
 
 GLFWwindow* Window::getContext() {
@@ -39,8 +46,14 @@ void Window::draw() {
     while (!glfwWindowShouldClose(window)) {
         // calculate frame time
         calculateDeltaTime();
+
         // process inputs
-        // draw scene
+        processInput(window);
+
+        scene.setBackgroundColor(glm::vec3(0.17f, 0.23f, 0.40f));
+        scene.draw();
+
+        // swap buffers
         glfwSwapBuffers(window);
         glfwPollEvents();
     }

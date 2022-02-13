@@ -1,9 +1,6 @@
-#include <glad/glad.h> // include glad to get all the required OpenGL headers
+#pragma once
 #include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-
-enum Direction { FORWARD, BACKWARD, LEFT, RIGHT };
+#include "Direction.h"
 
 class Camera {
 public:
