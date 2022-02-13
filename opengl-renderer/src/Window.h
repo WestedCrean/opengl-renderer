@@ -1,9 +1,6 @@
 #pragma once
-#include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <string>
-
-#include "Camera.h"
 #include "Scene.h"
 
 class Window {
@@ -16,6 +13,7 @@ public:
 	Scene scene;
 
 	Window(int width, int height, std::string title);
+	~Window();
 	GLFWwindow* getContext();
 
 	void setScene(Scene scene);

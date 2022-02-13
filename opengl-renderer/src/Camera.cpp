@@ -1,13 +1,16 @@
-#include "src/Camera.h"
+#include <glad/glad.h> // include glad to get all the required OpenGL headers
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
-Camera::Camera(glm::vec3 position, float fov) {
-	this->position = position;
+#include "Camera.h"
+
+Camera::Camera(glm::vec3 position, float fov) : position(position), fov(fov) {
 	this->front = glm::vec3(0.0f, 0.0f, -1.0f);
 	this->up = glm::vec3(0.0f, 1.0f, 0.0f);
 
 	this->yaw = 0.0;
 	this->pitch = 0.0;
-	this->fov = fov;
 
 	this->lastFrameTime = 0.0f;
 };
