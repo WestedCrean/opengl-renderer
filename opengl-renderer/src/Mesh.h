@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-//#include "Shader.h"
+#include "Shader.h"
 
 #define MAX_BONE_INFLUENCE 4
 
@@ -15,14 +15,14 @@ struct Vertex {
     // texCoords
     glm::vec2 TexCoords;
 
-    //// tangent
-    //glm::vec3 Tangent;
-    //// bitangent
-    //glm::vec3 Bitangent;
-    ////bone indexes which will influence this vertex
-    //int m_BoneIDs[MAX_BONE_INFLUENCE];
-    ////weights from each bone
-    //float m_Weights[MAX_BONE_INFLUENCE];
+    // tangent
+    glm::vec3 Tangent;
+    // bitangent
+    glm::vec3 Bitangent;
+    //bone indexes which will influence this vertex
+    int m_BoneIDs[MAX_BONE_INFLUENCE];
+    //weights from each bone
+    float m_Weights[MAX_BONE_INFLUENCE];
 };
 
 struct Texture {
@@ -33,18 +33,18 @@ struct Texture {
 
 class Mesh {
 
-public:
+    public:
     // mesh Data
     std::vector<Vertex>       vertices;
     std::vector<unsigned int> indices;
     std::vector<Texture>      textures;
     unsigned int VAO;
 
-	Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures);
-    void setupMesh();
-    void draw();
+    Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures);
+    void draw(Shader& shader);
 
-private:
+    private:
     // render data 
+    void setupMesh();
     unsigned int VBO, EBO;
 };

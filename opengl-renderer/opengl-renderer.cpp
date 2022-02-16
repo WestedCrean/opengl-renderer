@@ -12,6 +12,12 @@ int main() {
 
     std::cout << "Window initialized successfully" << std::endl;
 
+
+    // scene setup (model initialisation) should take place here
+
+    // pass scene reference to window
+
+    // draw scene
     window.draw();
 
 }

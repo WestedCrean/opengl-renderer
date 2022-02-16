@@ -8,11 +8,19 @@
 #include "Mesh.h"
 
 Mesh::Mesh(
-	std::vector<Vertex> vertices,
-	std::vector<unsigned int> indices,
-	std::vector<Texture> textures) : vertices(vertices), indices(indices), textures(textures) {
+    std::vector<Vertex> vertices,
+    std::vector<unsigned int> indices,
+    std::vector<Texture> textures) : vertices(vertices), indices(indices), textures(textures) {
 };
 
 void Mesh::setupMesh() {
-	glGenVertexArrays(1, &VAO);
+
+    // create buffers
+    glGenVertexArrays(1, &VAO);
+    glGenBuffers(1, &VBO);
+    glGenBuffers(1, &EBO);
+
+
+    // load data into vertex buffers
+    glBindVertexArray(VAO);
 }
