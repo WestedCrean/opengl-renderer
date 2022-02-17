@@ -30,7 +30,6 @@ Shader::Shader(const std::string& vertexPath, const std::string& fragmentPath) {
 
     glDeleteShader(vertexHandle);
     glDeleteShader(fragmentHandle);
-
 }
 
 std::string Shader::readShaderCode(const std::string& path) {
@@ -91,21 +90,21 @@ void Shader::use() {
 }
 
 // uniforms setters
-void Shader::setBool(std::string& name, bool value) const {
+void Shader::setBool(std::string name, bool value) const {
     glUniform1i(glGetUniformLocation(id, name.c_str()), (int)value);
 }
-void Shader::setInt(std::string& name, int value) const {
+void Shader::setInt(std::string name, int value) const {
     glUniform1i(glGetUniformLocation(id, name.c_str()), value);
 }
-void Shader::setFloat(std::string& name, float value) const {
+void Shader::setFloat(std::string name, float value) const {
     glUniform1f(glGetUniformLocation(id, name.c_str()), value);
 }
-void Shader::setMat4(std::string& name, glm::mat4 value) const {
+void Shader::setMat4(std::string name, glm::mat4 value) const {
     glUniformMatrix4fv(glGetUniformLocation(id, name.c_str()), 1, GL_FALSE, glm::value_ptr(value));
 }
-void Shader::setVec3(std::string& name, float x, float y, float z) const {
+void Shader::setVec3(std::string name, float x, float y, float z) const {
     glUniform3f(glGetUniformLocation(id, name.c_str()), x, y, z);
 }
-void Shader::setVec3(std::string& name, glm::vec3 vector) const {
+void Shader::setVec3(std::string name, glm::vec3 vector) const {
     glUniform3f(glGetUniformLocation(id, name.c_str()), vector.x, vector.y, vector.z);
 }

@@ -22,6 +22,7 @@ class Object {
 
     private:
     void loadModel(const std::string& path);
+    Mesh createCubeMesh();
     Mesh processMesh(aiMesh* mesh, const aiScene* scene);
     void processNode(aiNode* node, const aiScene* scene);
     std::vector<Texture> loadMaterialTextures(aiMaterial* mat, aiTextureType type, std::string typeName);

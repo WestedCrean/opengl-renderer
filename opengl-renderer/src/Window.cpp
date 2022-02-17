@@ -42,6 +42,10 @@ GLFWwindow* Window::getContext() {
     return window;
 }
 
+void Window::setScene(Scene& scene) {
+    this->scene = scene;
+}
+
 void Window::draw() {
     while (!glfwWindowShouldClose(window)) {
         // calculate frame time

@@ -5,24 +5,24 @@
 
 class Window {
 
-public:
+    public:
 
-	float deltaTime;
-	float lastFrame;
-	GLFWwindow* window;
-	Scene scene;
+    float deltaTime;
+    float lastFrame;
+    GLFWwindow* window;
+    Scene scene;
 
-	Window(int width, int height, std::string title);
-	~Window();
-	GLFWwindow* getContext();
+    Window(int width, int height, std::string title);
+    ~Window();
+    GLFWwindow* getContext();
 
-	void setScene(Scene scene);
+    void setScene(Scene& scene);
 
-	void draw();
-	void calculateDeltaTime();
-	void processInput(GLFWwindow* window);
-	void ProcessMouseMovement(float offsetX, float offsetY);
-	void ProcessMouseScroll(float offsetY);
+    void draw();
+    void calculateDeltaTime();
+    void processInput(GLFWwindow* window);
+    void ProcessMouseMovement(float offsetX, float offsetY);
+    void ProcessMouseScroll(float offsetY);
 
 };
 

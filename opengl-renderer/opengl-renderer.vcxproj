@@ -171,6 +171,10 @@
     <ClInclude Include="src\Shader.h" />
     <ClInclude Include="src\Window.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="shaders\cube.frag" />
+    <None Include="shaders\cube.vert" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -15,6 +15,7 @@ unsigned int TextureFromFile(const char* path, const std::string& directory, boo
 
 Object::Object() {
     // default object - a cube model for testing purposes
+    createCubeMesh();
 };
 
 Object::Object(const std::string& path) {
@@ -54,6 +55,34 @@ void Object::processNode(aiNode* node, const aiScene* scene) {
         processNode(node->mChildren[i], scene);
     }
 }
+Mesh Object::createCubeMesh() {
+    std::vector<Vertex> vertices;
+    std::vector<unsigned int> indices = std::vector<unsigned int>();
+    std::vector<Texture> textures = std::vector<Texture>();
+
+
+    // vertices
+
+    std::vector<glm::vec3> positions = {
+        glm::vec3(-0.5f, -0.5f, -0.5f),
+        glm::vec3(0.5f, -0.5f, -0.5f),
+        glm::vec3(0.5f,  0.5f, -0.5f),
+        glm::vec3(0.5f,  0.5f, -0.5f),
+        glm::vec3(-0.5f,  0.5f, -0.5f),
+        glm::vec3(-0.5f, -0.5f, -0.5f),
+    };
+
+    for (glm::vec3 vector : positions) {
+        Vertex vertex;
+        vertex.position = vector;
+        vertex.normal = glm::vec3(0.0f, 0.0f, -1.0f);
+        vertices.push_back(vertex);
+    }
+
+
+
+    return Mesh(vertices, indices, textures);
+}
 
 Mesh Object::processMesh(aiMesh* mesh, const aiScene* scene) {
     std::vector<Vertex> vertices;
@@ -68,14 +97,14 @@ Mesh Object::processMesh(aiMesh* mesh, const aiScene* scene) {
         vector.x = mesh->mVertices[i].x;
         vector.y = mesh->mVertices[i].y;
         vector.z = mesh->mVertices[i].z;
-        vertex.Position = vector;
+        vertex.position = vector;
 
         // normals
         if (mesh->HasNormals()) {
             vector.x = mesh->mNormals[i].x;
             vector.y = mesh->mNormals[i].y;
             vector.z = mesh->mNormals[i].z;
-            vertex.Normal = vector;
+            vertex.normal = vector;
         }
 
         // texture coordinates
@@ -85,19 +114,19 @@ Mesh Object::processMesh(aiMesh* mesh, const aiScene* scene) {
             // currently we only read first set of textures (0)
             vec.x = mesh->mTextureCoords[0][i].x;
             vec.y = mesh->mTextureCoords[0][i].y;
-            vertex.TexCoords = vec;
+            vertex.texCoords = vec;
             // tangent
             vector.x = mesh->mTangents[i].x;
             vector.y = mesh->mTangents[i].y;
             vector.z = mesh->mTangents[i].z;
-            vertex.Tangent = vector;
+            vertex.tangent = vector;
             // bitangent
             vector.x = mesh->mBitangents[i].x;
             vector.y = mesh->mBitangents[i].y;
             vector.z = mesh->mBitangents[i].z;
-            vertex.Bitangent = vector;
+            vertex.bitangent = vector;
         } else {
-            vertex.TexCoords = glm::vec2(0.0f, 0.0f);
+            vertex.texCoords = glm::vec2(0.0f, 0.0f);
         }
 
         vertices.push_back(vertex);
