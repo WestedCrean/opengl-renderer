@@ -15,7 +15,8 @@ unsigned int TextureFromFile(const char* path, const std::string& directory, boo
 
 Object::Object() {
     // default object - a cube model for testing purposes
-    createCubeMesh();
+    Mesh mesh = createCubeMesh();
+    meshes.push_back(mesh);
 };
 
 Object::Object(const std::string& path) {
@@ -23,7 +24,7 @@ Object::Object(const std::string& path) {
 };
 
 void Object::draw(Shader& shader) {
-    for (auto& mesh : meshes) {
+    for (Mesh& mesh : meshes) {
         mesh.draw(shader);
     }
 }
@@ -70,12 +71,43 @@ Mesh Object::createCubeMesh() {
         glm::vec3(0.5f,  0.5f, -0.5f),
         glm::vec3(-0.5f,  0.5f, -0.5f),
         glm::vec3(-0.5f, -0.5f, -0.5f),
+        glm::vec3(-0.5f, -0.5f,  0.5f),
+        glm::vec3(0.5f, -0.5f,  0.5f),
+        glm::vec3(0.5f,  0.5f,  0.5f),
+        glm::vec3(0.5f,  0.5f,  0.5f),
+        glm::vec3(-0.5f,  0.5f,  0.5f),
+        glm::vec3(-0.5f, -0.5f,  0.5f),
+        glm::vec3(-0.5f,  0.5f,  0.5f),
+        glm::vec3(-0.5f,  0.5f, -0.5f),
+        glm::vec3(-0.5f, -0.5f, -0.5f),
+        glm::vec3(-0.5f, -0.5f, -0.5f),
+        glm::vec3(-0.5f, -0.5f,  0.5f),
+        glm::vec3(-0.5f,  0.5f,  0.5f),
+        glm::vec3(0.5f,  0.5f,  0.5f),
+        glm::vec3(0.5f,  0.5f, -0.5f),
+        glm::vec3(0.5f, -0.5f, -0.5f),
+        glm::vec3(0.5f, -0.5f, -0.5f),
+        glm::vec3(0.5f, -0.5f,  0.5f),
+        glm::vec3(0.5f,  0.5f,  0.5f),
+        glm::vec3(-0.5f, -0.5f, -0.5f),
+        glm::vec3(0.5f, -0.5f, -0.5f),
+        glm::vec3(0.5f, -0.5f,  0.5f),
+        glm::vec3(0.5f, -0.5f,  0.5f),
+        glm::vec3(-0.5f, -0.5f,  0.5f),
+        glm::vec3(-0.5f, -0.5f, -0.5f),
+        glm::vec3(-0.5f,  0.5f, -0.5f),
+        glm::vec3(0.5f,  0.5f, -0.5f),
+        glm::vec3(0.5f,  0.5f,  0.5f),
+        glm::vec3(0.5f,  0.5f,  0.5f),
+        glm::vec3(-0.5f,  0.5f,  0.5f),
+        glm::vec3(-0.5f,  0.5f, -0.5f)
     };
 
     for (glm::vec3 vector : positions) {
         Vertex vertex;
         vertex.position = vector;
         vertex.normal = glm::vec3(0.0f, 0.0f, -1.0f);
+        vertex.texCoords = glm::vec2(0.0f, 0.0f);
         vertices.push_back(vertex);
     }
 

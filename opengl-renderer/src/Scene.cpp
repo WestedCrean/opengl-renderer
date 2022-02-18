@@ -53,9 +53,6 @@ void Scene::draw() {
     Shader shader = shaders[0];
 
     shader.use();
-
-    shader.setVec3("viewPos", camera.position);
-    shader.setFloat("material.shininess", 32.0f);
     // shader uniforms
     for (unsigned int i = 0; i < pointLightPositions.size(); i++) {
         shader.setVec3("pointLights[0].position", pointLightPositions[i]);
@@ -65,12 +62,13 @@ void Scene::draw() {
         shader.setFloat("pointLights[0].constant", 1.0f);
         shader.setFloat("pointLights[0].linear", 0.09f);
         shader.setFloat("pointLights[0].quadratic", 0.032f);
-        // change to std::format("pointLights[{}].position", std::to_string(i))
     }
 
     int SCR_WIDTH = 800;
     int SCR_HEIGHT = 600;
 
+    shader.setVec3("viewPos", camera.position);
+    shader.setFloat("material.shininess", 32.0f);
 
     // view/projection transformations
     glm::mat4 projection = glm::perspective(glm::radians(camera.fov), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);

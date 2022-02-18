@@ -24,7 +24,7 @@ Shader::Shader(const std::string& vertexPath, const std::string& fragmentPath) {
     std::string fragmentCode = readShaderCode(fragmentPath);
 
     compileShader(vertexHandle, vertexCode.c_str(), GL_VERTEX_SHADER);
-    compileShader(fragmentHandle, vertexCode.c_str(), GL_FRAGMENT_SHADER);
+    compileShader(fragmentHandle, fragmentCode.c_str(), GL_FRAGMENT_SHADER);
 
     linkShader(vertexHandle, fragmentHandle);
 

@@ -11,6 +11,8 @@ Mesh::Mesh(
     std::vector<Vertex> vertices,
     std::vector<unsigned int> indices,
     std::vector<Texture> textures) : vertices(vertices), indices(indices), textures(textures) {
+    // now that we have all the required data, set the vertex buffers and its attribute pointers.
+    setupMesh();
 };
 
 
@@ -64,8 +66,11 @@ void Mesh::setupMesh() {
     // again translates to 3/2 floats which translates to a byte array.
     glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), &vertices[0], GL_STATIC_DRAW);
 
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);
+    if (!indices.empty()) {
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);
+    }
+
 
     // set vertex attribute pointers
 
