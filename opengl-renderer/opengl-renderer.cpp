@@ -16,6 +16,7 @@ int main() {
     // scene setup (model initialisation) should take place here
     Scene scene = Scene();
 
+    scene.setupTestScene();
     // pass scene reference to window
     window.setScene(scene);
     // draw scene

@@ -36,13 +36,20 @@ void Scene::setupTestScene() {
 
     objects.push_back(Object());
     shaders.push_back(Shader("./shaders/cube.vert", "./shaders/cube.frag"));
+}
 
+bool Scene::wasSetUp() {
+    return !objects.empty() && !shaders.empty();
 }
 
 void Scene::draw() {
     glClearColor(background.x, background.y, background.z, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+    if (!wasSetUp()) {
+        // scene was not set up
+        return;
+    }
     Shader shader = shaders[0];
 
     shader.use();

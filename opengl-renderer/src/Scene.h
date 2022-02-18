@@ -19,6 +19,7 @@ class Scene {
     void addObject(Object& object);
     void setBackgroundColor(glm::vec3 background);
     void setupTestScene();
+    bool wasSetUp();
     void draw();
 };
 
