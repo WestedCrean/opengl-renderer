@@ -34,12 +34,8 @@ void Scene::setupTestScene() {
         glm::vec3(0.0f,  0.0f, -3.0f)
     };
 
-    // test object
-    objects.push_back(Object());
-
-
-    // backpack object
-    objects.push_back(Object("./models/backpack/backpack.obj"));
+    // test cube model
+    objects.push_back(Object("./models/cube/test_cube.obj"));
 
     shaders.push_back(Shader("./shaders/cube.vert", "./shaders/cube.frag"));
 }
