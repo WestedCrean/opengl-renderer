@@ -28,7 +28,7 @@ glm::mat4 Camera::getViewMatrix() {
     return glm::lookAt(position, position + front, up);
 }
 
-void Camera::ProcessKeyboard(Direction direction, float deltaTime) {
+void Camera::processKeyboard(Direction direction, float deltaTime) {
     float cameraSpeed = 2.5f * deltaTime;
 
     if (direction == Direction::FORWARD) {
@@ -48,5 +48,34 @@ void Camera::ProcessKeyboard(Direction direction, float deltaTime) {
 }
 
 
-//void Camera::ProcessMouseMovement(float offsetX, float offsetY);
-//void Camera::ProcessMouseScroll(float offsetY);
+void Camera::processMouseMovement(float offsetX, float offsetY) {
+    float sensitivity = 0.1f;
+    offsetX *= sensitivity;
+    offsetY *= sensitivity;
+
+    yaw += offsetX;
+    pitch += offsetY;
+
+    if (pitch > 89.0f)
+        pitch = 89.0f;
+    if (pitch < -89.0f)
+        pitch = -89.0f;
+
+    yaw = glm::mod(yaw, 360.0f); // clamp yaw
+
+    glm::vec3 direction;
+    direction.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
+    direction.y = sin(glm::radians(pitch));
+    direction.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+    front = glm::normalize(direction);
+
+    std::cout << "Mouse move" << "(" << offsetX << ", " << offsetY << ")" << std::endl;
+}
+
+void Camera::processMouseScroll(float offsetY) {
+    fov -= (float)offsetY;
+    if (fov < 25.0f)
+        fov = 25.0f;
+    if (fov > 40.0f)
+        fov = 40.0f;
+}
