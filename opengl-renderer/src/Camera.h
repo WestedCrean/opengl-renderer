@@ -18,9 +18,9 @@ public:
 	glm::mat4 getViewMatrix();
 
 	void lookAt(glm::vec3 target);
-	void ProcessKeyboard(Direction direction, float deltaTime);
-	void ProcessMouseMovement(float offsetX, float offsetY);
-	void ProcessMouseScroll(float offsetY);
+	void processKeyboard(Direction direction, float deltaTime);
+	void processMouseMovement(float offsetX, float offsetY);
+	void processMouseScroll(float offsetY);
 private:
 	float lastFrameTime;
 };
