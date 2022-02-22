@@ -11,28 +11,29 @@ class Window {
     float lastFrame;
     int width;
     int height;
-    GLFWwindow* window;
-    Window* windowPtr;
+    GLFWwindow* m_Window;
     Scene scene;
 
     Window(int width, int height, std::string title);
     ~Window();
-    GLFWwindow* getContext();
 
     void setScene(Scene& scene);
-
     void draw();
+
+    private:
+    GLFWwindow* getContext();
     void calculateDeltaTime();
-    void processInput(GLFWwindow* window);
-    void mouseCallback(GLFWwindow* window, double xposIn, double yposIn);
-    void scrollCallback(GLFWwindow* window, double xoffset, double yoffset);
-    void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 
-    void setMouseMoveCallback();
-    void setMouseScrollCallback();
-    void setFramebufferSizeCallback();
+    void processInput();
+    void framebufferSizeCallback(int width, int height);
+    void mouseCallback(double xposIn, double yposIn);
+    void scrollCallback(double xoffset, double yoffset);
 
-private:
+    static void static_framebufferSizeCallback(GLFWwindow* window, int width, int height);
+    static void static_mouseCallback(GLFWwindow* window, double xposIn, double yposIn);
+    static void static_scrollCallback(GLFWwindow* window, double xoffset, double yoffset);
+
+
     float lastMousePosX = width / 2.0f;
     float lastMousePosY = height / 2.0f;
     bool pristineMouse = true;
