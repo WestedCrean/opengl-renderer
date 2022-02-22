@@ -35,7 +35,9 @@ void Scene::setupTestScene() {
     };
 
     // test cube model
-    objects.push_back(Object("./models/cube/test_cube.obj"));
+    // 
+    objects.push_back(Object());
+    //objects.push_back(Object("./models/cube/test_cube.obj"));
 
     shaders.push_back(Shader("./shaders/cube.vert", "./shaders/cube.frag"));
 }

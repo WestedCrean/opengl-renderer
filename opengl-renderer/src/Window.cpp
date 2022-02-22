@@ -15,29 +15,33 @@ Window::Window(int width, int height, std::string title) {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    window = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
-    if (!window) {
+    m_Window = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
+    if (!m_Window) {
         glfwTerminate();
         throw std::runtime_error("Unable to create a window context");
     }
-    // register callback in case window size changes
-
-    // we have to translate our functions to static functions
-    glfwMakeContextCurrent(window);
+    glfwMakeContextCurrent(m_Window);
+    glfwSetWindowUserPointer(m_Window, this);
 
     // glad: load all OpenGL function pointers
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
         throw std::runtime_error("Failed to initialize GLAD");
     }
     glEnable(GL_DEPTH_TEST);
+
+
+    glfwSetFramebufferSizeCallback(m_Window, static_framebufferSizeCallback);
+    glfwSetCursorPosCallback(m_Window, static_mouseCallback);
+    glfwSetScrollCallback(m_Window, static_scrollCallback);
 }
 
 Window::~Window() {
+    glfwDestroyWindow(m_Window);
     glfwTerminate();
 }
 
 GLFWwindow* Window::getContext() {
-    return window;
+    return m_Window;
 }
 
 void Window::setScene(Scene& scene) {
@@ -45,18 +49,18 @@ void Window::setScene(Scene& scene) {
 }
 
 void Window::draw() {
-    while (!glfwWindowShouldClose(window)) {
+    while (!glfwWindowShouldClose(getContext())) {
         // calculate frame time
         calculateDeltaTime();
 
         // process inputs
-        processInput(window);
+        processInput();
 
         scene.setBackgroundColor(glm::vec3(0.17f, 0.23f, 0.40f));
         scene.draw();
 
         // swap buffers
-        glfwSwapBuffers(window);
+        glfwSwapBuffers(m_Window);
         glfwPollEvents();
     }
 }
@@ -67,21 +71,21 @@ void Window::calculateDeltaTime() {
     lastFrame = currentFrame;
 }
 
-void Window::processInput(GLFWwindow* window) {
-    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, true);
+void Window::processInput() {
+    if (glfwGetKey(m_Window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+        glfwSetWindowShouldClose(m_Window, true);
 
-    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+    if (glfwGetKey(m_Window, GLFW_KEY_W) == GLFW_PRESS)
         scene.camera.processKeyboard(Direction::FORWARD, deltaTime);
-    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+    if (glfwGetKey(m_Window, GLFW_KEY_S) == GLFW_PRESS)
         scene.camera.processKeyboard(Direction::BACKWARD, deltaTime);
-    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+    if (glfwGetKey(m_Window, GLFW_KEY_A) == GLFW_PRESS)
         scene.camera.processKeyboard(Direction::LEFT, deltaTime);
-    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+    if (glfwGetKey(m_Window, GLFW_KEY_D) == GLFW_PRESS)
         scene.camera.processKeyboard(Direction::RIGHT, deltaTime);
 }
 
-void Window::mouseCallback(GLFWwindow* window, double xposIn, double yposIn) {
+void Window::mouseCallback(double xposIn, double yposIn) {
     float xpos = static_cast<float>(xposIn);
     float ypos = static_cast<float>(yposIn);
 
@@ -100,51 +104,27 @@ void Window::mouseCallback(GLFWwindow* window, double xposIn, double yposIn) {
     scene.camera.processMouseMovement(xoffset, yoffset);
 }
 
-void Window::scrollCallback(GLFWwindow* window, double xoffset, double yoffset) {
+void Window::scrollCallback(double xoffset, double yoffset) {
     scene.camera.processMouseScroll(static_cast<float>(yoffset));
 }
 
-void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
+void Window::framebufferSizeCallback(int width, int height) {
     // make sure the viewport matches the new window dimensions; note that width and 
     // height will be significantly larger than specified on retina displays.
     glViewport(0, 0, width, height);
 }
 
-
-void Window::setMouseMoveCallback() {
-
-
-    glfwSetCursorPosCallback(window, mouse_callback);
-
-
-    glfwSetWindowUserPointer(window, windowPtr);
-
-    auto func = [](GLFWwindow* w, int width, int height)
-    {
-        static_cast<Window*>(glfwGetWindowUserPointer(w))->mouseCallback(w, width, height);
-    };
-
-    glfwSetCursorPosCallback(window, func);
+void Window::static_framebufferSizeCallback(GLFWwindow* window, int width, int height) {
+    Window* actualWindow = (Window*)glfwGetWindowUserPointer(window);
+    actualWindow->framebufferSizeCallback(width, height);
 }
 
-void Window::setMouseScrollCallback() {
-    glfwSetWindowUserPointer(window, windowPtr);
-
-    auto func = [](GLFWwindow* w, int x, int y)
-    {
-        static_cast<Window*>(glfwGetWindowUserPointer(w))->scrollCallback(w, x, y);
-    };
-    
-    glfwSetScrollCallback(window, func);
+void Window::static_mouseCallback(GLFWwindow* window, double xposIn, double yposIn) {
+    Window* actualWindow = (Window*)glfwGetWindowUserPointer(window);
+    actualWindow->mouseCallback(xposIn, yposIn);
 }
 
-void setFramebufferSizeCallback() {
-    glfwSetWindowUserPointer(window, windowPtr);
-
-    auto func = [](GLFWwindow* w, int width, int height)
-    {
-        static_cast<Window*>(glfwGetWindowUserPointer(w))->framebuffer_size_callback(w, width, height);
-    };
-
-    glfwSetFramebufferSizeCallback(window, func);
+void Window::static_scrollCallback(GLFWwindow* window, double xoffset, double yoffset) {
+    Window* actualWindow = (Window*)glfwGetWindowUserPointer(window);
+    actualWindow->scrollCallback(xoffset, yoffset);
 }
