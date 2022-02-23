@@ -1,3 +1,4 @@
+#pragma once
 #include "Scene.h"
 
 #include <glad/glad.h> // include glad to get all the required OpenGL headers
@@ -36,8 +37,8 @@ void Scene::setupTestScene() {
 
     // test cube model
     // 
-    objects.push_back(Object());
-    //objects.push_back(Object("./models/cube/test_cube.obj"));
+    //objects.push_back(Object());
+    objects.push_back(Object("./models/cube/test_cube.obj"));
 
     shaders.push_back(Shader("./shaders/cube.vert", "./shaders/cube.frag"));
 }
