@@ -58,7 +58,7 @@ void Scene::draw() {
     Shader shader = shaders[0];
 
     shader.use();
-    // shader uniforms
+    // set shader uniforms
     for (unsigned int i = 0; i < pointLightPositions.size(); i++) {
         shader.setVec3("pointLights[0].position", pointLightPositions[i]);
         shader.setVec3("pointLights[0].ambient", 0.05f, 0.05f, 0.05f);
