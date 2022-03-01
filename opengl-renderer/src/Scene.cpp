@@ -25,22 +25,28 @@ void Scene::addObject(Object& object) {
     objects.push_back(object);
 }
 
+void Scene::addPosLight(PositionalLight& light) {
+    posLights.push_back(light);
+}
+
 void Scene::setupTestScene() {
 
     // positions of the point lights
-    pointLightPositions = {
-        glm::vec3(0.7f,  0.2f,  2.0f),
-        glm::vec3(2.3f, -3.3f, -4.0f),
-        glm::vec3(-4.0f,  2.0f, -12.0f),
-        glm::vec3(0.0f,  0.0f, -3.0f)
-    };
+    PositionalLight pl1 = PositionalLight("posLight[0]", glm::vec3(0.7f, 0.2f, 2.0f));
+    PositionalLight pl2 = PositionalLight("posLight[1]", glm::vec3(2.3f, -3.3f, -4.0f));
+    PositionalLight pl3 = PositionalLight("posLight[2]", glm::vec3(-4.0f, 2.0f, -12.0f));
+    PositionalLight pl4 = PositionalLight("posLight[3]", glm::vec3(0.0f, 0.0f, -3.0f));
+    addPosLight(pl1);
+    addPosLight(pl2);
+    addPosLight(pl3);
+    addPosLight(pl4);
 
     // test cube model
     // 
     //objects.push_back(Object());
-    objects.push_back(Object("./models/cube/test_cube.obj"));
+    objects.emplace_back(Object("./models/cube/test_cube.obj"));
 
-    shaders.push_back(Shader("./shaders/cube.vert", "./shaders/cube.frag"));
+    shaders.emplace_back(Shader("./shaders/cube.vert", "./shaders/cube.frag"));
 }
 
 bool Scene::wasSetUp() {
