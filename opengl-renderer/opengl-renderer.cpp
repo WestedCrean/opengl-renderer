@@ -1,36 +1,31 @@
-#define STB_IMAGE_IMPLEMENTATION
-//#include "stb_image.h"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-#include "src/Window.h"
-#include "src/Scene.h"
 #include <iostream>
 
+void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+void processInput(GLFWwindow* window);
+
+const unsigned int SCR_WIDTH = 800;
+const unsigned int SCR_HEIGHT = 600;
+
 int main() {
+    glfwInit();
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "OpenGL", NULL, NULL);
 
-    Window window = Window(800, 600, "Wiktor's renderer");
+    while (!glfwWindowShouldClose(window)) {
+        processInput(window);
+    }
 
-    std::cout << "Window initialized successfully" << std::endl;
-
-    // scene setup (model initialisation) should take place here
-    Scene scene = Scene();
-
-    scene.setupTestScene();
-    // pass scene reference to window
-    window.setScene(scene);
-    // draw scene
-    window.draw();
-
+    glfwTerminate();
+    return 0;
 }
 
+void processInput(GLFWwindow* window) {
+    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+        glfwSetWindowShouldClose(window, true);
 
-// Main idea
-// create a window abstraction
-// create a shader abstraction
-// create a camera abstraction
-// create a Scene class containing
-// initialisation (reading all models, textures)
-// add lights
-// input handling
-// rendering loop
+}
